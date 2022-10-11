@@ -15,7 +15,7 @@ export INFOPATH="/opt/homebrew/share/info:${INFOPATH:-}";
 
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
-
+ZSH_CUSTOM=~/.config/zsh
 ZSH_THEME="tadpol"
 
 zstyle ':omz:update' mode reminder  # just remind me to update when it's time
@@ -43,6 +43,12 @@ plugins+=(
 
 
 source $ZSH/oh-my-zsh.sh
+
+# ewww.
+unfunction take
+unfunction takeurl
+unfunction takegit
+unfunction takedir
 
 
 zstyle ':completion:*' completer _expand _complete _approximate
