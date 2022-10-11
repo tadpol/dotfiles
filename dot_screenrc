@@ -1,0 +1,9 @@
+startup_message off
+# Look and feel
+caption always "%{= bb}%{+b w}Screen: %n | %h %=%t %c"
+#caption always "%-Lw%{= BW}%50>%n%f* %t%{-}%+Lw< %{=b BW} %H %{-} %l %c %d/%m/%Y"
+#hardstatus alwayslastline "%-Lw%{= BW}%50>%n%f* %t%{-}%+Lw%<"
+
+# Our warning of activity
+activity "Activity in %t(%n)"
+

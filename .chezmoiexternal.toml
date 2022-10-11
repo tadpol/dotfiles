@@ -1,0 +1,6 @@
+[".vim"]
+type = "git-repo"
+url = "https://github.com/tadpol/vimrc.git"
+refreshPeriod = "168h"
+clone.args = ["--recurse-submodules"]
+

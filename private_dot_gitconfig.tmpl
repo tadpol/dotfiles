@@ -1,0 +1,30 @@
+[core]
+	excludesfile = {{ .chezmoi.homeDir }}/.gitignore_global
+	pager = delta
+[delta]
+	syntax-theme = GitHub
+	line-numbers = true
+	navigate = true
+[interactive]
+	diffFilter = delta --color-only
+[user]
+	name = Michael Conrad Tadpol Tilstra
+	email = {{ onepasswordRead "op://Personal/GitHub SSH Key/emails/work" | trim }}
+	signingkey = {{ onepasswordRead "op://Personal/GitHub SSH Key/public key" | trim }}
+[commit]
+	template = {{ .chezmoi.homeDir }}/.stCommitMsg
+	gpgsign = true
+[alias]
+	parent = "!git show-branch | grep '*' | grep -v \"$(git rev-parse --abbrev-ref HEAD)\" | head -n1 | sed 's/[^[]*\\[\\([^]]*\\)\\].*/\\1/' | sed 's/[\\^~].*//' #"
+
+[pull]
+	rebase = false
+[init]
+	defaultBranch = develop
+[gpg]
+	format = ssh
+[gpg "ssh"]
+{{- if eq .chezmoi.os "darwin" }}
+	program = /Applications/1Password.app/Contents/MacOS/op-ssh-sign
+{{- end }}
+	allowedSignersFile = {{ .chezmoi.homeDir }}/.ssh/allowed_signers

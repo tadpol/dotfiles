@@ -1,0 +1,31 @@
+Host *
+ForwardAgent yes
+{{ if eq .chezmoi.os "darwin" -}}
+IdentityAgent "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
+{{ else if eq .chezmoi.os "linux" -}}
+IdentityAgent "~/.1password/agent.sock"
+{{- end }}
+
+Host ebs-mac-mini.local.
+User ebs
+
+Host reki.local.
+User rakka
+Port 2202
+
+Host hopper
+User luser
+Port 2023
+HostName localhost
+
+Host muranobase
+User luser
+HostName muranobase.local.
+
+Host *.diode
+ProxyCommand nc -X 5 -x diode.link:1080 %h %p
+ForwardAgent no
+
+Host *
+User tadpol
+
