@@ -6,6 +6,7 @@ IdentityAgent "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
 IdentityAgent "~/.1password/agent.sock"
 {{- end }}
 
+{{ if .amHostOs }}
 Host ebs-mac-mini.local.
 User ebs
 
@@ -21,11 +22,16 @@ HostName localhost
 Host muranobase
 User luser
 HostName muranobase.local.
+{{- end }}
 
 Host *.diode
 ProxyCommand nc -X 5 -x diode.link:1080 %h %p
 ForwardAgent no
 
 Host *
+{{- if .amHostOs }}
 User tadpol
+{{ else }}
+User luser
+{{- end }}
 

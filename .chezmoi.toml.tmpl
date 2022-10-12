@@ -1,0 +1,7 @@
+{{- $codespaces:= env "CODESPACES" | not | not -}}
+
+[data]
+    codespaces = {{ $codespaces }}
+    # There must be a better way for this, but am drawing blanks.
+    amHostOs = {{ eq .chezmoi.os "darwin" }}
+

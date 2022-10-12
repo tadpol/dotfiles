@@ -9,8 +9,10 @@
 	diffFilter = delta --color-only
 [user]
 	name = Michael Conrad Tadpol Tilstra
+{{- if .amHostOs }}
 	email = {{ onepasswordRead "op://Personal/GitHub SSH Key/emails/work" | trim }}
 	signingkey = {{ onepasswordRead "op://Personal/GitHub SSH Key/public key" | trim }}
+{{- end }}
 [commit]
 	template = {{ .chezmoi.homeDir }}/.stCommitMsg
 	gpgsign = true
@@ -24,7 +26,7 @@
 [gpg]
 	format = ssh
 [gpg "ssh"]
-{{- if eq .chezmoi.os "darwin" }}
+{{- if .amHostOs }}
 	program = /Applications/1Password.app/Contents/MacOS/op-ssh-sign
 {{- end }}
 	allowedSignersFile = {{ .chezmoi.homeDir }}/.ssh/allowed_signers
