@@ -153,4 +153,9 @@ which luarocks >/dev/null && path=(`luarocks path --lr-bin |sed -e 's/:.*$//'` $
 [ -d "$HOME/.local/bin" ] && path=($HOME/.local/bin $path) # pipx
 path=($HOME/bin $path)
 
+{{ if eq .chezmoi.hostname "hopper" -}}
+export SSHTO=sshto
+path=(/hopper/bin $path)
+{{ end -}}
+
 #  vim: set et sw=4 ts=4 :

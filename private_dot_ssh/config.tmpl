@@ -31,6 +31,8 @@ ForwardAgent no
 Host *
 {{- if .amHostOs }}
 User tadpol
+{{ else if eq .chezmoi.hostname "hopper" }}
+User ubuntu
 {{ else }}
 User luser
 {{- end }}
