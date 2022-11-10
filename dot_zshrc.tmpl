@@ -149,6 +149,7 @@ which luarocks >/dev/null && path=(`luarocks path --lr-bin |sed -e 's/:.*$//'` $
 [ -d "$HOME/npm/bin" ] && path=($HOME/npm/bin $path)
 [ -d "$HOME/go/bin" ] && path=($HOME/go/bin $path)
 [ -d "$HOME/.local/bin" ] && path=($HOME/.local/bin $path) # pipx
+[ -d "$HOME/.cargo/bin" ] && path=($HOME/.cargo/bin $path)
 path=($HOME/bin $path)
 
 {{ if eq .chezmoi.hostname "hopper" -}}
