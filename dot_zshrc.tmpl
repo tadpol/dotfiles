@@ -117,7 +117,7 @@ dan() { dash "manpages:$@" }
 alias cz=chezmoi
 
 alias gst='git status'
-alias gol='git log --oneline --graph --decorate'
+alias gol='git log --pretty=format:"%C(auto)%h %G? %d %s" --graph'
 alias gb='git branch'
 alias gba='git branch -av'
 alias gr='git remote -v'
