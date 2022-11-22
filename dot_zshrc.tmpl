@@ -29,6 +29,7 @@ DISABLE_LS_COLORS="true"
 # DISABLE_UNTRACKED_FILES_DIRTY="true"
 
 plugins=(
+    asdf
     docker
     docker-compose
     screen
@@ -134,6 +135,9 @@ export LESS='-F -R'
 export HOMEBREW_CASK_OPTS="--appdir=/Applications"
 {{ end -}}
 
+# Tool building options
+export KERL_CONFIGURE_OPTIONS=--without-javac
+
 # Load up rbenv
 if which rbenv >/dev/null ; then
    eval "$(rbenv init - --no-rehash)"
@@ -141,9 +145,8 @@ fi
 
 ##### Paths; lots of stuff gets dropped in private places.
 
-# Add luarocks paths. (LUA_PATH & LUA_CPATH)
+# Add luarocks paths. (LUA_PATH)
 which luarocks >/dev/null && eval `luarocks path`
-which luarocks >/dev/null && path=(`luarocks path --lr-bin |sed -e 's/:.*$//'` $path)
 
 # Add places to path, only if they exist.
 [ -d "$HOME/npm/bin" ] && path=($HOME/npm/bin $path)
@@ -156,5 +159,8 @@ path=($HOME/bin $path)
 export SSHTO=sshto
 path=(/hopper/bin $path)
 {{ end -}}
+
+# cleanup potential path dups
+typeset -U path
 
 #  vim: set et sw=4 ts=4 :
