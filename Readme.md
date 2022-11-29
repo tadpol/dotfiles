@@ -9,7 +9,6 @@ this belong to something else?
 - Quicksilver plugins?
 - VSCode extentions?
 - Brewfile?
-- Gemfile?
 - lua rocks?
 - npm global packages?
 

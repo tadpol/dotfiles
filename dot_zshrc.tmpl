@@ -136,12 +136,9 @@ export HOMEBREW_CASK_OPTS="--appdir=/Applications"
 {{ end -}}
 
 # Tool building options
+# Is there a way to have these not here, but in the asdf configuration?
 export KERL_CONFIGURE_OPTIONS=--without-javac
-
-# Load up rbenv
-if which rbenv >/dev/null ; then
-   eval "$(rbenv init - --no-rehash)"
-fi
+#export RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl@3)"
 
 ##### Paths; lots of stuff gets dropped in private places.
 
