@@ -76,10 +76,8 @@ alias zcp='noglob zmv -C'
 alias zln='noglob zmv -L'
 alias zsy='noglob zmv -Ls'
 
-HISTFILE=~/.histfile
-HISTSIZE=1000
-SAVEHIST=1000
-set -o histignorespace
+setopt hist_ignore_space
+unsetopt share_history
 
 # I prefer my cursor to be at the end of the line, not the beginning
 bindkey -M viins "^[OA" up-line-or-history
