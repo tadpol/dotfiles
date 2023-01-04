@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+$*.map do |i|
+  if i.length <= 32 then
+    # add dashes
+    i.sub(/^(........)(....)(....)(....)(............)/, '\1-\2-\3-\4-\5').downcase
+  else
+    i.gsub(/-/,'').downcase
+  end
+end.each{|i| puts i}
+#  vim: set ai et sw=2 ts=2 :
