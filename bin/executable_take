@@ -1,0 +1,144 @@
+#!/usr/bin/ruby
+
+require 'fileutils'
+require 'optparse'
+require 'pp'
+require 'shellwords'
+
+name = File.basename($0)
+# TODO: Allow EVN override
+inv_space = File.join(Dir.home(), ".local", "state", "inv", "files")
+inv_bd = File.dirname(inv_space)
+
+if name == "take" then
+  options = {}
+  OptionParser.new do |opts|
+    opts.banner = "Usage: take [options] file…"
+
+    opts.on("-c", "--copy", "Copy file paths to system clipboard") do |v|
+      options[:copy] = v
+    end
+    opts.on("-a", "--add", "Add files to inv instead of replacing") do |v|
+      options[:add] = v
+    end
+    opts.on("-h", "--help", "Prints this help") do
+      puts opts
+      exit
+    end
+  end.parse!
+
+  pwd = Dir.getwd
+  files = ARGV.map{|f| File.join(pwd, f) }.shelljoin
+  if options[:copy] then
+    IO.popen("pbcopy", 'w') { |io| io << files }
+  else
+    FileUtils.makedirs(inv_bd) unless Dir.exist?(inv_bd)
+    if options[:add] then
+      old = if File.exist?(inv_space) then
+               File.open(inv_space, 'r') {|io| io.read }
+             else
+               ""
+             end.shellsplit
+      files.prepend(*old)
+    end
+    File.open(inv_space, 'w') { |io| io << files }
+  end
+
+
+elsif name == "drop" then
+  options = {}
+  OptionParser.new do |opts|
+    opts.banner = "Usage: drop [options] [dest]"
+
+    opts.on("-p", "--paste", "Use file paths from system clipboard") do |v|
+      options[:paste] = v
+    end
+    opts.on("-m", "--move", "Move files instead of copying them") do |v|
+      options[:move] = v
+    end
+    opts.on("-s", "--select [pattern]", Regexp, "Only drop files matching pattern") do |v|
+      options[:select] = v
+    end
+    opts.on("-h", "--help", "Prints this help") do
+      puts opts
+      exit
+    end
+  end.parse!
+
+  files = if options[:paste] then
+            `pbpaste`
+           else
+             if File.exist?(inv_space) then
+               File.open(inv_space, 'r') {|io| io.read }
+             else
+               ""
+             end
+           end.shellsplit
+
+  remaining = []
+  if options[:select] then
+    remaining = files.reject { |e| options[:select].match(e) }
+    files.select! { |e| options[:select].match(e) }
+  end
+
+  dest = if ARGV[0].nil?
+           Dir.getwd
+         else
+           if File.directory?(ARGV[0]) then
+             ARGV[0]
+           else
+             File.dirname(ARGV[0])
+           end
+         end
+  if options[:move] then
+    FileUtils.mv(files, dest)
+  else
+    FileUtils.cp_r(files, dest)
+  end
+
+  # only remove items actually dropped.
+  unless options[:paste] then
+    if options[:select] and not remaining.empty? then
+      FileUtils.makedirs(inv_bd) unless Dir.exist?(inv_bd)
+      File.open(inv_space, 'w') { |io| io << remaining.shelljoin }
+    else
+      File.delete(inv_space)
+    end
+  end
+
+elsif name == "inv" then
+  options = {}
+  OptionParser.new do |opts|
+    opts.banner = "Usage: inv [options]"
+
+    opts.on("-p", "--peek", "Use file paths from system clipboard") do |v|
+      options[:paste] = v
+    end
+    opts.on("-s", "--select [pattern]", Regexp, "Only show files matching pattern") do |v|
+      options[:select] = v
+    end
+    opts.on("-h", "--help", "Prints this help") do
+      puts opts
+      exit
+    end
+  end.parse!
+
+  files = if options[:paste] then
+            `pbpaste`
+           else
+             if File.exist?(inv_space) then
+               File.open(inv_space, 'r') {|io| io.read }
+             else
+               ""
+             end
+           end.shellsplit
+
+  if options[:select] then
+    files.select! { |e| options[:select].match(e) }
+  end
+
+  # Pretty up the output.
+  pp files
+end
+
+#  vim: set sw=2 ts=2 et :
