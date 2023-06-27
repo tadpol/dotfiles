@@ -6,7 +6,6 @@ These below cross out of just dotfiles and are into package/extension management
 much are things I want to manage, but should they get managed by the dotfile tool? or does
 this belong to something else?
 
-- Quicksilver plugins?
 - VSCode extentions?
 - Brewfile?
 - lua rocks?

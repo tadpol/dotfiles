@@ -43,7 +43,7 @@ aliases:
           }
         }' | jq '.data.user.pullRequests.nodes[]|.permalink' -r
     disha: '!gh run view --log $(gh run list -b stable -w ''Publish Docker Image''  -L1 --json databaseId --jq ''.[0].databaseId'') | egrep ''Publish Docker Image.*digest:'' | tail -1 | sed -e ''s/^.*sha256:\([^ ]*\).*$/\1/'''
-    rts: '!echo "Docker Sha: $(gh run view --log $(gh run list -b stable -w ''Publish Docker Image''  -L1 --json databaseId --jq ''.[0].databaseId'') | egrep ''Publish Docker Image.*digest:'' | tail -1 | sed -e ''s/^.*sha256:\([^ ]*\).*$/\1/'')\nGit Commit: $(git branch -l --format ''%(objectname)'' stable)"'
+    rts: '!echo "Docker Sha: $(gh run view --log $(gh run list -b stable -w ''Publish Docker Image''  -L1 --json databaseId --jq ''.[0].databaseId'') | egrep ''Publish Docker Image.*digest:'' | tail -1 | sed -e ''s/^.*sha256:\([^ ]*\).*$/\1/'')\nGit Commit: $(git branch -r -l origin/stable --format ''%(objectname)'')"'
     tostable: '!git push -f origin stable:sandbox && git push -f origin stable:develop'
     tohead: '!git push -f origin HEAD:sandbox && git push -f origin HEAD:develop'
     rll: run list -L3
