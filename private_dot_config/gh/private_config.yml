@@ -23,7 +23,7 @@ aliases:
             }
           }
         }' | \
-        jq '.data.user.pullRequests.nodes[]|[.isDraft,.reviewDecision,.permalink]|@csv' -r | \
+        jq '(["Draft?","Review","Link"], (.data.user.pullRequests.nodes[]|[.isDraft,.reviewDecision,.permalink]))|@csv' -r | \
         xsv table
     'myprs_links': |
         !gh api graphql --paginate -F owner='tadpol' -f query='query($owner: String!, $endCursor: String) {
