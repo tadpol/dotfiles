@@ -47,3 +47,4 @@ aliases:
     tostable: '!git push -f origin stable:sandbox && git push -f origin stable:develop'
     tohead: '!git push -f origin HEAD:sandbox && git push -f origin HEAD:develop'
     rll: run list -L3
+version: "1"

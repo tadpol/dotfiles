@@ -18,7 +18,8 @@
 	gpgsign = true
 [alias]
 	parent = "!git show-branch | grep '*' | grep -v \"$(git rev-parse --abbrev-ref HEAD)\" | head -n1 | sed 's/[^[]*\\[\\([^]]*\\)\\].*/\\1/' | sed 's/[\\^~].*//' #"
-
+	tickets = "!git log --oneline HEAD \"^$1\" | egrep -o 'EXO-[0-9]+' | sort | uniq #"
+	undo = "reset --soft HEAD^"
 [pull]
 	rebase = false
 [init]
