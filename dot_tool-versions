@@ -2,3 +2,5 @@ elixir 1.12
 erlang 24.3.4.6
 lua 5.4.4
 ruby 3.1.3
+nodejs 21.5.0
+golang 1.21.5

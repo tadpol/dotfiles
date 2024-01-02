@@ -1,0 +1,5 @@
+github.com/go-delve/delve/cmd/dlv@latest
+golang.org/x/lint/golint@latest
+golang.org/x/tools/gopls@latest
+honnef.co/go/tools/cmd/staticcheck@latest
+github.com/neilpa/yajsv@latest
