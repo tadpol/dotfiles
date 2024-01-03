@@ -150,7 +150,6 @@ which luarocks >/dev/null && eval `luarocks path`
 [ -f "$HOME/.asdf/plugins/golang/set-env.zsh" ] && source $HOME/.asdf/plugins/golang/set-env.zsh
 
 # Add places to path, only if they exist.
-[ -d "$HOME/npm/bin" ] && path=($HOME/npm/bin $path)
 [ -d "$HOME/.local/bin" ] && path=($HOME/.local/bin $path) # pipx
 [ -d "$HOME/.cargo/bin" ] && path=($HOME/.cargo/bin $path)
 path=($HOME/bin $path)
