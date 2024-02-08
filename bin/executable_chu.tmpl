@@ -1,0 +1,25 @@
+#!/bin/zsh
+
+{{ if eq .chezmoi.os "darwin" -}}
+brew update -q
+brew outdated --greedy
+{{- end}}
+{{ if eq .chezmoi.os "linux" -}}
+sudo apt update
+sudo apt list --upgradable
+{{- end}}
+
+# Unfortunitily because of how the version streams for ruby work, 
+# just doing `asdf latest --all` isn't useful.
+
+plugins=($(asdf plugin list))
+for p in $plugins; do
+  current=$(asdf current $p | awk '{print $2}')
+  latest=$(asdf latest $p)
+  if [[ "$current" != "$latest" ]]; then
+    echo "$p\t$current\t$latest"
+  fi
+done | mlr --hi --itsv --opprint --ho cat  
+
+
+#  vim: set ft=zsh sw=2 ts=2 :
