@@ -19,7 +19,7 @@ for p in $plugins; do
   if [[ "$current" != "$latest" ]]; then
     echo "$p\t$current\t$latest"
   fi
-done | mlr --hi --itsv --opprint --ho cat  
+done | mlr --hi --itsv --opprint label language,installed,newest
 
 
 #  vim: set ft=zsh sw=2 ts=2 :
