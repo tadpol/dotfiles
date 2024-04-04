@@ -128,6 +128,14 @@ alias gpu='git push'
 alias gpo='git push --set-upstream origin ${$(git symbolic-ref HEAD)#refs/heads/}'
 alias isodate='date +%Y-%m-%dT%H:%M:%S%z'
 
+{{ if eq .chezmoi.os "darwin" -}}
+alias lc=limactl
+alias lcl='limactl list'
+alias lcup='limactl start'
+alias lcstop='limactl stop'
+alias lcs='limactl shell'
+alias lce='limactl edit'
+{{- end }}
 
 export EDITOR=vim
 export LESS='-F -R'
