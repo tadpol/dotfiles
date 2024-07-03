@@ -111,7 +111,7 @@ setopt -o PUSHD_IGNORE_DUPS
 alias open=xdg-open
 {{ end -}}
 {{ if eq .chezmoi.os "darwin" -}}
-dan() { dash "manpages:$@" }
+dan() { dash "manpages%3A$@" }
 {{ end -}}
 alias cz=chezmoi
 
@@ -130,11 +130,14 @@ alias isodate='date +%Y-%m-%dT%H:%M:%S%z'
 
 {{ if eq .chezmoi.os "darwin" -}}
 alias lc=limactl
-alias lcl='limactl list'
 alias lcup='limactl start'
 alias lcstop='limactl stop'
 alias lcs='limactl shell'
 alias lce='limactl edit'
+#alias lcl='limactl list'
+function lcl {
+ limactl list -f json | mlr --ijson --implicit-csv-header --opprint flatten then rename config.memory,memory then cut -f name,cpus,status,memory then put '$status == "Running" { $status = "\033[1mRunning\033[0m" }' then reorder -f name,cpus,memory
+}
 {{- end }}
 
 export EDITOR=vim
