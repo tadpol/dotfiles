@@ -110,6 +110,7 @@ setopt -o PUSHD_IGNORE_DUPS
 
 {{ if eq .chezmoi.os "linux" -}}
 alias open=xdg-open
+alias bat=batcat
 {{ end -}}
 {{ if eq .chezmoi.os "darwin" -}}
 dan() { dash "manpages%3A$@" }

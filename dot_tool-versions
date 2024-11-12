@@ -1,8 +1,8 @@
 elixir 1.15.4
 erlang 25.3.2.12
-golang 1.22.5
+golang 1.23.3
 lua 5.4.4
-nodejs 22.4.0
-packer 1.11.1
-python 3.12.4
+nodejs 23.2.0
+packer 1.11.2
+python 3.12.6
 ruby 3.3.0
