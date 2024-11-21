@@ -1,0 +1,6 @@
+JMQ_USER=op://Personal/Jira API Key/username
+JMQ_PASSWORD=op://Personal/Jira API Key/password
+JMQ_PROJECTS=EXO,EXOSENSE,MUR
+JMQ_HOST=exosite.atlassian.net
+JMQ_BRANCH_PREFIX=tadpol/
+
