@@ -41,6 +41,7 @@ plugins+=(
     brew
     dash
     lima-vm
+    tailscale
 )
 {{ end -}}
 
@@ -114,6 +115,7 @@ alias bat=batcat
 {{ end -}}
 {{ if eq .chezmoi.os "darwin" -}}
 dan() { dash "manpages%3A$@" }
+alias tailscale="/Applications/Tailscale.app/Contents/MacOS/Tailscale"
 {{ end -}}
 alias cz=chezmoi
 
@@ -154,11 +156,6 @@ which luarocks >/dev/null && eval `luarocks path`
 [ -d "$HOME/.local/bin" ] && path=($HOME/.local/bin $path) # pipx
 [ -d "$HOME/.cargo/bin" ] && path=($HOME/.cargo/bin $path)
 path=($HOME/bin $path)
-
-{{ if eq .chezmoi.hostname "hopper" -}}
-export SSHTO=sshto
-path=(/hopper/bin $path)
-{{ end -}}
 
 # cleanup potential path dups
 typeset -U path
