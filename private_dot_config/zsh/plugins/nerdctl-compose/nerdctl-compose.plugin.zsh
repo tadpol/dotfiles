@@ -2,6 +2,7 @@
 #
 # Use the limactl version if present
 [[ -x "${commands[nerdctl.lima]:A}" ]] && nccmd='nerdctl.lima compose' || nccmd='nerdctl compose'
+[[ -x "${commands[nerdctl.lima]:A}" ]] && ncmd='nerdctl.lima' || ncmd='nerdctl'
 
 alias nco="$nccmd"
 alias ncb="$nccmd build"
@@ -23,5 +24,8 @@ alias ncpull="$nccmd pull"
 alias ncstart="$nccmd start"
 alias nck="$nccmd kill"
 
+alias nps="$ncmd ps"
+
+unset ncmd
 unset nccmd
 
