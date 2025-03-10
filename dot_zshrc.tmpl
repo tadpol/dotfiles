@@ -136,6 +136,8 @@ alias isodate='date +%Y-%m-%dT%H:%M:%S%z'
 export EDITOR=vim
 export LESS='-F -R'
 
+export ASDF_DATA_DIR="${HOME}/.asdf"
+
 {{ if eq .chezmoi.os "darwin" -}}
 export HOMEBREW_CASK_OPTS="--appdir=/Applications"
 {{ end -}}
@@ -157,6 +159,9 @@ which luarocks >/dev/null && eval `luarocks path`
 [ -d "$HOME/.local/bin" ] && path=($HOME/.local/bin $path) # pipx
 [ -d "$HOME/.cargo/bin" ] && path=($HOME/.cargo/bin $path)
 path=($HOME/bin $path)
+
+# add asdf shims (last so this gets checked first)
+path=($ASDF_DATA_DIR/shims $path)
 
 # cleanup potential path dups
 typeset -U path
