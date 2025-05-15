@@ -7,10 +7,6 @@ IdentityAgent "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
 IdentityAgent "~/.1password/agent.sock"
 {{- end }}
 
-Host lima-murano
-HostName lima-murano
-Include ~/.lima/murano/ssh.config
-
 Host ebs-mac-mini.local.
 User ebs
 
@@ -20,15 +16,6 @@ Port 2202
 
 Host hyoko.local.
 User pi
-
-Host hopper
-User luser
-Port 2023
-HostName localhost
-
-Host muranobase
-User luser
-HostName muranobase.local.
 {{- end }}
 
 Host *.diode
@@ -43,4 +30,3 @@ User ubuntu
 {{ else }}
 User luser
 {{- end }}
-

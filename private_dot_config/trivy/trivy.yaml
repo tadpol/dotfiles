@@ -1,0 +1,6 @@
+
+scan:
+  skip-files:
+    - "_nobackup/*"
+    - "usm-*-dump/*"
+
