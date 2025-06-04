@@ -1,6 +1,7 @@
 #!/bin/zsh
 # Check all of the various things for updates
 # And pretty some of them
+autoload -Uz zargs
 
 {{ if eq .chezmoi.os "darwin" -}}
 function check_brew() {
@@ -22,9 +23,28 @@ function check_apt() {
 }
 {{- end}}
 
+function check_pipx() {
+  local installed=$(pipx list --json)
+
+  function _get_latest() {
+    local pkg=$1
+    local latest=$(pip index versions $pkg --json | jq -r .latest)
+    echo "$pkg,$latest"
+  }
+
+	local pkgs=($(jq -r '.venvs | to_entries[].key' <<<$installed))
+  local latest=$(echo "name,newest"; zargs -P 5 -l 1 -- $pkgs -- _get_latest)
+
+  jq -r '.venvs | to_entries[] | .value |= .metadata.main_package.package_version' <<<$installed \
+  | mlr --ijson --opprint label name,installed \
+      then join --icsv -j name -f =(<<<$latest) \
+      then filter '$installed != $newest' \
+      then reorder -f name,installed,newest \
+      then sort -f name
+}
 
 function check_asdf() {
-  # Many plugins (fe: Ruby and Python) have multple build streams and asdf squashes them all into
+  # Many plugins (fe: Ruby and Python) have multiple build streams and asdf squashes them all into
   # a single version list.  This makes `asdf latest …` not very useful
   #
   # Not a great solution, but the egrep works for my usage.
@@ -44,6 +64,7 @@ if [[ $# > 0 ]]; then
   check_$1
 else
   for fn in ${(@ok)functions[(I)check_*]}; do
+    echo "⁌ $fn ⁍"
     $fn
   done
 fi
