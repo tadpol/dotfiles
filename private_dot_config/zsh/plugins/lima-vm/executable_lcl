@@ -5,7 +5,7 @@ function lcl {
   limactl list -f json | mlr --ijson --implicit-csv-header --opprint flatten \
     then rename config.memory,memory \
     then cut -f name,cpus,status,memory,vmType \
-    then put '$status == "Running" { $status = "\033[1mRunning\033[0m" }' \
+    then put '$status == "Running" { $status = "\033[7mRunning\033[0m" }' \
     then reorder -f name,cpus,memory,vmType
 }
 
