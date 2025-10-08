@@ -18,10 +18,6 @@ Host hyoko.local.
 User pi
 {{- end }}
 
-Host *.diode
-ProxyCommand nc -X 5 -x diode.link:1080 %h %p
-ForwardAgent no
-
 Host *
 {{- if .amHostOs }}
 User tadpol
@@ -30,3 +26,6 @@ User ubuntu
 {{ else }}
 User luser
 {{- end }}
+
+Include ~/.ssh/config.d/*.conf
+
