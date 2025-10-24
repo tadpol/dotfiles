@@ -3,26 +3,24 @@
 # And pretty some of them
 autoload -Uz zargs
 
-{{ if eq .chezmoi.os "darwin" -}}
+if (whence brew >/dev/null); then
 function check_brew() {
   brew update -q
   brew outdated --greedy
 }
+fi
 
+if (whence mas >/dev/null); then
 function check_mas() {
   mas outdated | mlr --hi --opprint \
     put '$1 =~ "(\d+)\s(.*)\s\((\d+(?:\.\d+)*) -> (\d+(?:\.\d+)*)\)"; $1="\1"; $2="\2"; $3="\3"; $4="\4"' \
     then label id,name,installed,newest \
     then sort -f name
 }
-{{- end}}
-{{ if eq .chezmoi.os "linux" -}}
-function check_apt() {
-  sudo apt update
-  sudo apt list --upgradable
-}
-{{- end}}
+fi
 
+
+if (whence pipx >/dev/null); then
 function check_pipx() {
   local installed=$(pipx list --json)
 
@@ -32,7 +30,7 @@ function check_pipx() {
     echo "$pkg,$latest"
   }
 
-	local pkgs=($(jq -r '.venvs | to_entries[].key' <<<$installed))
+  local pkgs=($(jq -r '.venvs | to_entries[].key' <<<$installed))
   local latest=$(echo "name,newest"; zargs -P 5 -l 1 -- $pkgs -- _get_latest)
 
   jq -r '.venvs | to_entries[] | .value |= .metadata.main_package.package_version' <<<$installed \
@@ -42,7 +40,9 @@ function check_pipx() {
       then reorder -f name,installed,newest \
       then sort -f name
 }
+fi
 
+if (whence asdf >/dev/null); then
 function check_asdf() {
   # Many plugins (fe: Ruby and Python) have multiple build streams and asdf squashes them all into
   # a single version list.  This makes `asdf latest …` not very useful
@@ -51,14 +51,25 @@ function check_asdf() {
 
   plugins=($(asdf plugin list))
   for p in $plugins; do
-    current=$(asdf current $p | tail -1 | awk '{print $2}')
-    #latest=$(asdf latest $p)
-    latest=$(asdf list all $p | egrep '^[0-9]+\.[0-9]+\.[0-9]+(\.[0-9]+)?$' | tail -1)
-    if [[ "$current" != "$latest" ]]; then
-      echo "$p\t$current\t$latest"
+    local installed=($(asdf list $p | sed -e 's/\*/ /'))
+    local latest=$(asdf list all $p | egrep '^[0-9]+\.[0-9]+\.[0-9]+(\.[0-9]+)?$' | tail -1)
+
+    # Check to see if lastest version installed. It might not be current.
+    local found=1
+    for x in "${installed[@]}"; do
+      if [[ $x == $latest ]]; then
+        found=0; break
+      fi
+    done
+    if (( found )); then
+      local current=$(asdf current $p | tail -1 | awk '{print $2}')
+      #latest=$(asdf latest $p)
+      local inst=$(print -rl -- "${installed[@]}" | sort -V | tail -1)
+      echo "$p\t$inst\t$current\t$latest"
     fi
-  done | mlr --hi --itsv --opprint label language,installed,newest
+  done | mlr --hi --itsv --opprint label language,installed,current,newest
 }
+fi
 
 if [[ $# > 0 ]]; then
   check_$1
