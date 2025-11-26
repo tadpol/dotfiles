@@ -1,0 +1,75 @@
+#!/usr/bin/env zsh
+# Convert timestamps into human-readable format
+
+function show_help() {
+  echo "Usage: epoch [<timestamp>|<option> …]"
+  echo "Options:"
+  echo "  -h, --help      Show this help message and exit"
+  echo "  -l, --long      Also show in local time zone and show epoch size (s, ms, us, ns)"
+  echo "If no timestamp is provided, the current time is used."
+}
+
+(date -d @0 >/dev/null 2>&1) && BSD_DATE=false || BSD_DATE=true
+function date_cmd() {
+  local epoch=$1
+  shift
+  if $BSD_DATE; then
+    date -r "$epoch" "$@"
+  else
+    date -d @"$epoch" "$@"
+  fi
+}
+
+LONG_FORMAT=false
+
+if [[ $# -eq 0 ]]; then
+  TIMESTAMPS=($(date +%s))
+else
+  TIMESTAMPS=()
+  for arg in "$@"; do
+    case $arg in
+      -h|--help)
+        show_help
+        exit 0
+        ;;
+      -l|--long)
+        LONG_FORMAT=true
+        ;;
+      *)
+        TIMESTAMPS+=("$arg")
+        ;;
+    esac
+  done
+fi
+for ts in "${TIMESTAMPS[@]}"; do
+  if ! [[ $ts =~ ^-?[0-9]+$ ]]; then
+    echo "Invalid timestamp: $ts" >&2
+    continue
+  fi
+  if (( ${#ts} <= 10 )); then
+    size="s"
+    epoch_time=$ts
+    remainder=""
+  elif (( ${#ts} <= 13 )); then
+    size="ms"
+    epoch_time=$(( ts / 1000 ))
+    remainder=.$(( ts % 1000 ))
+  elif (( ${#ts} <= 16 )); then
+    size="us"
+    epoch_time=$(( ts / 1000000 ))
+    remainder=.$(( ts % 1000000 ))
+  else
+    size="ns"
+    epoch_time=$(( ts / 1000000000 ))
+    remainder=.$(( ts % 1000000000 ))
+  fi
+
+  if $LONG_FORMAT; then
+    local_time=$(date_cmd "$epoch_time" +"%Y-%m-%d %H:%M:%S$remainder %Z")
+    utc_time=$(date_cmd "$epoch_time" -u +"%Y-%m-%d %H:%M:%S${remainder}Z")
+    echo "$ts, $size, $utc_time, $local_time"
+  else
+    utc_time=$(date_cmd "$epoch_time" -u +"%Y-%m-%d %H:%M:%S${remainder}Z")
+    echo "$utc_time"
+  fi
+done
