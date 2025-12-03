@@ -71,6 +71,13 @@ function check_asdf() {
 }
 fi
 
+if (whence apt >/dev/null); then
+function check_apt() {
+  sudo apt update -qq
+  sudo apt list --upgradeable
+}
+fi
+
 if [[ $# > 0 ]]; then
   check_$1
 else

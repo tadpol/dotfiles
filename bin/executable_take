@@ -30,7 +30,7 @@ done
 ##############################################################################
 # Some helpers
 function _get_bag {
-  local bag=".local/state/inv/files"
+  local bag="$HOME/.local/state/inv/files"
   mkdir -p ${bag:h}
   echo $bag
 }
@@ -53,7 +53,7 @@ function take_help {
   echo "Options:"
   echo "  --append, -a    Append to the existing bag instead of replacing it"
   echo "  --add           Same as --append"
-} 
+}
 function take {
   # Write to the bag file, each arg on one line.
   # Replacing old bag unless --append or --add is given
