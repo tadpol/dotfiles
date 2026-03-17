@@ -36,10 +36,10 @@ DISABLE_LS_COLORS="true"
 # DISABLE_UNTRACKED_FILES_DIRTY="true"
 
 plugins=(
-    asdf
     brew
     docker
     docker-compose
+    mise
     mix-fast
     nerdctl-compose
     screen
@@ -144,32 +144,13 @@ alias isodate='date +%Y-%m-%dT%H:%M:%S%z'
 export EDITOR=vim
 export LESS='-F -R'
 
-export ASDF_DATA_DIR="${HOME}/.asdf"
-
 {{ if eq .chezmoi.os "darwin" -}}
 export HOMEBREW_CASK_OPTS="--appdir=/Applications"
 {{ end -}}
 
-# Tool building options
-# Is there a way to have these not here, but in the asdf configuration?
-export KERL_CONFIGURE_OPTIONS=--without-javac
-#export RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl@3)"
-
-##### Paths; lots of stuff gets dropped in private places.
-
-# Add luarocks paths. (LUA_PATH)
-which luarocks >/dev/null && eval `luarocks path`
-
-# Go paths
-[ -f "$HOME/.asdf/plugins/golang/set-env.zsh" ] && source $HOME/.asdf/plugins/golang/set-env.zsh
-
 # Add places to path, only if they exist.
-[ -d "$HOME/.local/bin" ] && path=($HOME/.local/bin $path) # pipx
-[ -d "$HOME/.cargo/bin" ] && path=($HOME/.cargo/bin $path)
+[ -d "$HOME/.local/bin" ] && path=($HOME/.local/bin $path)
 path=($HOME/bin $path)
-
-# add asdf shims (last so this gets checked first)
-path=($ASDF_DATA_DIR/shims $path)
 
 # cleanup potential path dups
 typeset -U path

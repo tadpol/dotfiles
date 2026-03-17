@@ -10,6 +10,12 @@ function check_brew() {
 }
 fi
 
+if (whence mise >/dev/null); then
+function check_mise() {
+  mise outdated --bump
+}
+fi
+
 if (whence mas >/dev/null); then
 function check_mas() {
   mas outdated | mlr --hi --opprint \
@@ -31,6 +37,7 @@ function check_pipx() {
   }
 
   local pkgs=($(jq -r '.venvs | to_entries[].key' <<<$installed))
+  [[ $#pkgs -eq 0 ]] && return
   local latest=$(echo "name,newest"; zargs -P 5 -l 1 -- $pkgs -- _get_latest)
 
   jq -r '.venvs | to_entries[] | .value |= .metadata.main_package.package_version' <<<$installed \
