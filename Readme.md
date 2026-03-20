@@ -1,35 +1,32 @@
 # My Dotfiles
 
-I assume that [brew](https://brew.sh) is installed first,
-then [asdf](https://asdf-vm.com/), then [chezmoi](https://www.chezmoi.io)
+My machines are setup with the following base tools:
+- [Homebrew](http://brew.sh)
+- [Chezmoi](https://www.chezmoi.io)
+- [Mise](https://mise.jdx.dev/)
 
-## ASDF
+Between brew and mise: If I just need the latest version and it is in homebrew, then brew.  If I need
+multiple versions or if only needed in specific directories, then mise.
 
-(Nearly) All of the language tooling I used is manaaged by [asdf](https://asdf-vm.com/) these days.
-So _separately_ from chezmoi, asdf needs to be installed and setup. (install asdf, install plugins,
-install each tool)
+## Setup
 
-The following plugins to asdf should get installed:
+1. Install and upgrade the OS.
+2. OS setup
+    1. If MacOS, log into iCloud and sync
+    2. If Linux, `apt install build-essential procps curl file git`
+3. Install Homebrew
+    - See: [http://brew.sh]
+    - `/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`
+4. Install packages
+    - `brew install chezmoi mise yq`
+5. Install configs
+    - `chezmoi init --apply tadpol`
+6. Install tools
+    - `mise install --config ~/.config/mise/config.toml`
+7. Optionally trim global tools
+    - `yq -i  'del(.tools)' {{.Home}}/.config/mise/config.toml`
 
-- elixir  (builtin)
-- erlang  (builtin)
-- golang  [asdf-golang](https://github.com/asdf-community/asdf-golang)
-- lua     [asdf-lua](https://github.com/Stratus3D/asdf-lua)
-- nodejs  (builtin)
-- ruby    (builtin)
+## Brewfile
 
-## todo
-
-These below cross out of just dotfiles and are into package/extension management.  And very
-much are things I want to manage, but should they get managed by the dotfile tool? or does
-this belong to something else?
-
-### Brewfile
-
-I don't want to install brew, or run it from chezmoi.  However it would be nice to maintain the
-file here.
-
-### lua rocks
-
-asdf-lua doesn't support a .default-lua file, but I also don't need any at this point in time.
+The Brewfile is something of a snapshot/suggestions than a what should be installed.
 
