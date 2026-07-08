@@ -143,6 +143,7 @@ alias isodate='date +%Y-%m-%dT%H:%M:%S%z'
 
 export EDITOR=vim
 export LESS='-F -R'
+export NO_PROXY=localhost,127.0.0.1,::1
 
 {{ if eq .chezmoi.os "darwin" -}}
 export HOMEBREW_CASK_OPTS="--appdir=/Applications"
