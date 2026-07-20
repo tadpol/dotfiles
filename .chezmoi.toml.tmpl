@@ -1,6 +1,8 @@
 {{- $codespaces:= env "CODESPACES" | not | not -}}
+{{- $agentVm:= env "AGENT_VM" | not | not -}}
 
 [data]
+    agentVm = {{ $agentVm }}
     codespaces = {{ $codespaces }}
     # There must be a better way for this, but am drawing blanks.
     amHostOs = {{ eq .chezmoi.os "darwin" }}

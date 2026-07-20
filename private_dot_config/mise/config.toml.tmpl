@@ -1,0 +1,31 @@
+[tools]
+bun = "latest"
+{{- if .amHostOs }}
+deno = "latest"
+go = "latest"
+node = "latest"
+"npm:npm-check-updates" = "latest"
+ollama = "latest"
+"pipx:llm" = "latest"
+"pipx:marimo" = "latest"
+pitchfork = "latest"
+python = "latest"
+{{- else if .agentVm }}
+"github:can1357/oh-my-pi" = "latest"
+"pipx:llm" = "latest"
+uv = "latest"
+{{- end }}
+
+[settings]
+color_theme = "base16"
+{{- if .amHostOs }}
+minimum_release_age = "7d"
+{{- end }}
+
+npm.package_manager = "bun"
+
+[env]
+{{- if .agentVm }}
+PI_PROXY_GLASSDEV = "http://host.lima.internal:8888"
+{{- end }}
+

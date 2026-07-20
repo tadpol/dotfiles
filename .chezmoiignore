@@ -1,4 +1,7 @@
 Brewfile
 Readme.md
 install.sh
+{{- if (not .agentVm) }}
+.omp
+{{- end }}
 
