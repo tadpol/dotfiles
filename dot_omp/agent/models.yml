@@ -1,0 +1,30 @@
+providers:
+  ollama:
+    baseUrl: "http://host.lima.internal:11434/v1"
+    api: openai-completions
+    auth: none
+    models:
+      - id: gemma4:e4b-mlx-bf16
+        name: gemma4:e4b-mlx-bf16
+      - id: qwen3.5:9b-mlx
+        name: qwen3.5:9b-mlx
+    discovery:
+      type: ollama
+  glassdev:
+    baseUrl: "http://ai-tooling.vm.glass-dev.internal:11434/v1"
+    # Requires setting PI_PROXY_GLASSDEV=http://host.lima.internal:8888
+    api: openai-completions
+    auth: none
+    compat:
+      streamIdleTimeoutMs: 120000     # 2 min
+    models:
+      - id: "qwen3.6:35b-a3b-q4_K_M"
+        name: "qwen3.6-35b"
+        contextWindow: 256000
+      - id: qwen3-coder-128k:latest
+        contextWindow: 128000
+      - id: qwen3-coder-next-64k:latest
+        contextWindow: 64000
+    discovery:
+      type: ollama
+

@@ -1,0 +1,5 @@
+setupVersion: 1
+modelRoles:
+  default: glassdev/qwen3.6:35b-a3b-q4_K_M
+  smol: ollama/gemma4:e4b-mlx-bf16
+  slow: glassdev/qwen3-coder-next-64k:latest
