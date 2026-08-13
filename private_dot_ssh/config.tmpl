@@ -28,4 +28,7 @@ User luser
 {{- end }}
 
 Include ~/.ssh/config.d/*.conf
+{{- if .amHostOs }}
+Include ~/.lima/*/ssh.config
+{{- end }}
 
