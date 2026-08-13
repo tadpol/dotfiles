@@ -1,0 +1,71 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "permission": {
+    "bash": {
+      "*": "ask"
+    }
+  },
+  "provider": {
+    "ollama": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Ollama (local)",
+      "options": {
+        "baseURL": "http://host.lima.internal:11434/v1"
+      },
+      "models": {
+        "gemma4:e4b-mlx": {
+          "name": "gemma4"
+        },
+        "qwen2.5-coder:7b": {
+          "name": "qwen2.5"
+        },
+        "qwen3.6:35b-a3b-coding-mxfp8": {
+          "name": "qwen3.6"
+        }
+      }
+    },
+    "glassdev": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Ollama (GlassDev)",
+      "options": {
+        "baseURL": "http://host.lima.internal:8888/v1",
+        "headers": {
+          "Host": "ai-tooling.vm.glass-dev.internal:11434"
+        }
+      },
+      "models": {
+        "qwen3.6:35b-a3b-q4_K_M": {
+          "name": "qwen3.6-35b",
+          "limit": {
+            "context": 256000,
+            "output": 256000
+          }
+        },
+        "qwen3-coder-128k:latest": {
+          "name": "qwen3-coder-128k",
+          "limit": {
+            "context": 128000,
+            "output": 128000
+          }
+        },
+        "qwen3-coder-next-64k:latest": {
+          "name": "qwen3-coder-next-64k",
+          "limit": {
+            "context": 64000,
+            "output": 64000
+          }
+        }
+      }
+    }
+  },
+  "mcp": {
+    "exosense": {
+      "type": "remote",
+      "url": "https://exosense.apps.lima-m8.local/api/mcp",
+      "oauth": false,
+      "headers": {
+        "Authorization": "Automation {env:EXOSENSE_API_KEY}"
+      }
+    }
+  }
+}
