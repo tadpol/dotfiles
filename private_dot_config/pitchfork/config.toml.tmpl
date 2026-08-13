@@ -1,0 +1,35 @@
+[settings.proxy]
+enable = true
+port = 27000
+https = false
+
+[settings.logs]
+line_retention = 5000
+
+{{ if .amHostOs }}
+[daemons.ollama]
+run = "ollama serve"
+mise = true
+boot_start = true
+ready_http = "http://localhost:11434/"
+
+[daemons.ollama.env]
+OLLAMA_FLASH_ATTENTION = "1"
+OLLAMA_KV_CACHE_TYPE = "q8_0"
+{{ end -}}
+
+{{- if .agentVm }}
+[daemons.git]
+run = """
+exec git daemon --verbose \
+ --base-path=$HOME \
+ --port=$PORT \
+ --export-all \
+ --enable=receive-pack \
+ --reuseaddr
+"""
+port = 9418
+mise = false
+boot_start = false
+{{- end -}}
+
