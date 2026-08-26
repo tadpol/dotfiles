@@ -4,8 +4,8 @@ providers:
     api: openai-completions
     auth: none
     models:
-      - id: gemma4:e4b-mlx-bf16
-        name: gemma4:e4b-mlx-bf16
+      - id: gemma4:e4b-mlx
+        name: gemma4:e4b-mlx
       - id: qwen3.5:9b-mlx
         name: qwen3.5:9b-mlx
     discovery:
