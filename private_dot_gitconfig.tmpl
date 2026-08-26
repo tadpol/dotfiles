@@ -12,7 +12,12 @@
 [interactive]
 	diffFilter = delta --color-only
 [user]
+{{- if .agentVm }}
+	name = AGENT SQUASH OR REBASE
+	email = agent@localhost.localdomain
+{{- else }}
 	name = Michael Conrad Tadpol Tilstra
+{{- end }}
 {{- if .amHostOs }}
 	email = {{ onepasswordRead "op://Personal/GitHub SSH Key/emails/work" | trim }}
 	signingkey = {{ onepasswordRead "op://Personal/GitHub SSH Key/public key" | trim }}
