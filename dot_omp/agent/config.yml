@@ -1,10 +1,17 @@
 setupVersion: 2
 modelRoles:
-  default: glassdev/qwen3.6:35b-a3b-q4_K_M
-  smol: ollama/gemma4:e4b-mlx
-  slow: glassdev/qwen3-coder-next-64k:latest
+  default: ollama/qwen3.8:27b-mlx
+  smol: ollama/qwen3:8b
+  tiny: ollama/gemma4:e4b-mlx
+  slow: ollama/qwen3.8:27b-mlx
+
 tools:
   approvalMode: write
+  approval:
+    computer: deny
+    browser: deny
+    eval: deny
+
 composer:
   shape: pi
 

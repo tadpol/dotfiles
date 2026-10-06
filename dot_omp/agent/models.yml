@@ -6,8 +6,8 @@ providers:
     models:
       - id: gemma4:e4b-mlx
         name: gemma4:e4b-mlx
-      - id: qwen3.5:9b-mlx
-        name: qwen3.5:9b-mlx
+      - id: qwen3.8:27b-mlx
+        name: qwen3.8:27b-mlx
     discovery:
       type: ollama
   glassdev:
