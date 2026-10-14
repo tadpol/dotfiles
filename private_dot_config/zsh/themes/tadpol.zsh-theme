@@ -1,8 +1,8 @@
-local return_code='%(?..%{$fg[red]%}%? ↵%{$reset_color%})'
-local whereami='%{$fg[blue]%}%c%{$reset_color%}'
-local git_inf='$(git_prompt_info)%{$reset_color%}$(git_prompt_status)%{$reset_color%}'
-
-RPROMPT="${return_code} ${whereami}${git_inf}"
+#local return_code='%(?..%{$fg[red]%}%? ↵%{$reset_color%})'
+#local whereami='%{$fg[blue]%}%c%{$reset_color%}'
+#local git_inf='$(git_prompt_info)%{$reset_color%}$(git_prompt_status)%{$reset_color%}'
+#
+#RPROMPT="${return_code} ${whereami}${git_inf}"
 
 ZSH_THEME_GIT_PROMPT_PREFIX=" %{$fg[red]%}"
 ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%}"
@@ -22,7 +22,10 @@ ZSH_THEME_GIT_PROMPT_BEHIND="%{$fg_bold[blue]%} ⇩"
 ZSH_THEME_GIT_PROMPT_DIVERGED="%{$fg_bold[blue]%} ⇳"
 #
 # #precmd () { print -Pn "\e]0;%4~\a" }
-export PS1='%(?.⊙.%{$fg[red]%}⊗%{$reset_color%})%m⤐  '
+#export PS1='%(?.⊙.%{$fg[red]%}⊗%{$reset_color%})%m⤐  '
 export PS2='%_⤐  '
 #⊙⊚⊗
+# Switching to a two line status. can get more info without cramping
+export PS1='┌[%m %{$fg[blue]%}%c%{$reset_color%} $(git_prompt_info)%{$reset_color%}$(git_prompt_status)%{$reset_color%} %{$fg[white]%}%D %*%{$reset_color%}]
+└[%(?.⊙.%{$fg[red]%}⊗%{$reset_color%})⤇ '
 
