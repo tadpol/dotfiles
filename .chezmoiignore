@@ -3,6 +3,5 @@ Readme.md
 install.sh
 {{- if (not .agentVm) }}
 .omp
-.config/opencode
 {{- end }}
 
