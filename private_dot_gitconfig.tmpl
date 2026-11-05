@@ -15,16 +15,18 @@
 {{- if .agentVm }}
 	name = AGENT SQUASH OR REBASE
 	email = agent@localhost.localdomain
-{{- else }}
+{{- else if .amHostOs }}
 	name = Michael Conrad Tadpol Tilstra
-{{- end }}
-{{- if .amHostOs }}
 	email = {{ onepasswordRead "op://Personal/GitHub SSH Key/emails/work" | trim }}
 	signingkey = {{ onepasswordRead "op://Personal/GitHub SSH Key/public key" | trim }}
+{{- else }}
+  name = Unconfirmed User
 {{- end }}
 [commit]
 	template = {{ .chezmoi.homeDir }}/.stCommitMsg
+{{- if .amHostOs }}
 	gpgsign = true
+{{- end }}
 [alias]
 	parent = "!git show-branch | grep '*' | grep -v \"$(git rev-parse --abbrev-ref HEAD)\" | head -n1 | sed 's/[^[]*\\[\\([^]]*\\)\\].*/\\1/' | sed 's/[\\^~].*//' #"
 	tickets = "!git log --oneline HEAD \"^$1\" | egrep -o 'EXO-[0-9]+' | sort | uniq #"
