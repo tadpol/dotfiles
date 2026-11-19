@@ -13,9 +13,12 @@ User ebs
 Host reki.local.
 User rakka
 Port 2202
+{{- end }}
 
-Host hyoko.local.
-User pi
+Host *
+Include ~/.ssh/config.d/*.conf
+{{- if .amHostOs }}
+Include ~/.lima/*/ssh.config
 {{- end }}
 
 Host *
@@ -25,10 +28,5 @@ User tadpol
 User ubuntu
 {{ else }}
 User luser
-{{- end }}
-
-Include ~/.ssh/config.d/*.conf
-{{- if .amHostOs }}
-Include ~/.lima/*/ssh.config
 {{- end }}
 
