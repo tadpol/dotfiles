@@ -6,6 +6,9 @@ https = false
 [settings.logs]
 line_retention = 5000
 
+[settings.tui]
+theme = "catppuccin_mocha"
+
 {{ if .amHostOs }}
 [daemons.ollama]
 run = "ollama serve"
