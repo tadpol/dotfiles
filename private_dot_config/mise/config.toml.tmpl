@@ -1,25 +1,27 @@
 [tools]
 bun = "latest"
+herdr = "latest"
 {{- if .amHostOs }}
 dive = "latest"
 go = "latest"
-herdr = "latest"
 mitmproxy = "latest"
 node = "latest"
 "npm:npm-check-updates" = "latest"
 ollama = "latest"
+"pipx:llm" = { version = "latest", postinstall = "llm install llm-ollama && llm install llm-anthropic" }
 "pipx:marimo" = "latest"
 pitchfork = "latest"
 python = "latest"
-{{- else if .agentVm }}
+{{- else if has "omp" .agents }}
 oh-my-pi = {
   version = "latest",
   postinstall = "omp install github:DietrichGebert/ponytail",
   rename_exe = "omp"
 }
-uv = "latest"
+{{- else }}
+"pipx:llm" = { version = "latest", postinstall = "llm install llm-ollama" }
 {{- end }}
-"pipx:llm" = { version = "latest", postinstall = "llm install llm-ollama && llm install llm-anthropic" }
+uv = "latest"
 usage = "latest"
 
 [settings]

@@ -1,9 +1,17 @@
 {{- $codespaces:= env "CODESPACES" | not | not -}}
 {{- $agentVm:= env "AGENT_VM" | not | not -}}
+{{- $agents := list -}}
+{{- range splitList "," (env "AGENTS") -}}
+{{- $agent := trim . -}}
+{{- if $agent -}}
+{{- $agents = append $agents $agent -}}
+{{- end -}}
+{{- end }}
 
 [data]
-    agentVm = {{ $agentVm }}
+    # If $agents isn't empty, then also set agentVm to true, since we are running in an agent VM.
+    agentVm = {{ or $agentVm (gt (len $agents) 0) }}
+    agents = {{ $agents }}
     codespaces = {{ $codespaces }}
     # There must be a better way for this, but am drawing blanks.
     amHostOs = {{ eq .chezmoi.os "darwin" }}
-
