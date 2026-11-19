@@ -1,0 +1,12 @@
+{{- $gitoliteHost := "localhost" -}}
+{{- $gitoliteId := "gitolite_admin" -}}
+{{- if .agentVm }}
+  {{- $gitoliteHost = "host.lima.internal" -}}
+  {{- $gitoliteId = "gitolite" -}}
+{{- end }}
+Host gitolite
+  HostName {{ $gitoliteHost }}
+  Port 2222
+  User git
+  IdentityFile ~/.ssh/{{ $gitoliteId }}
+  IdentitiesOnly yes
